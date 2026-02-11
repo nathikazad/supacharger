@@ -1,0 +1,511 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPACHARGER.AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for subtle feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .fade-in-up {
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-400 antialiased selection:bg-teal-900 selection:text-teal-100">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/80 backdrop-blur-md">
+        <div class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+            <div class="text-sm font-semibold tracking-widest text-slate-200 uppercase">Supacharger.ai</div>
+            <a href="#contact" class="text-xs font-medium text-slate-400 hover:text-white transition-colors">Investor Relations</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-24 space-y-32">
+
+        <!-- SECTION 1: Grounding (Is This Real?) -->
+        <section class="min-h-[70vh] flex flex-col justify-center">
+            <div class="mb-8 fade-in-up">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-950/30 border border-teal-900/50 text-teal-500 text-xs font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                    </span>
+                    Prototype Active v0.9
+                </div>
+                <h1 class="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6 leading-tight">
+                    The operating system <br>for self-mastery.
+                </h1>
+                <p class="text-lg text-slate-400 max-w-xl leading-relaxed">
+                    A passive wearable, an AI agent, and a local database. <br>
+                    We don't sell data. We build the infrastructure for users to own it.
+                </p>
+            </div>
+
+            <!-- System Diagram -->
+            <div class="glass-panel p-8 rounded-xl fade-in-up delay-200">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-teal-500">
+                            <iconify-icon icon="solar:watch-square-minimalistic-linear" width="24" stroke-width="1.5"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide">WEARABLE</span>
+                        <span class="text-xs text-slate-500">Passive Capture</span>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 w-[1px] md:h-[1px] md:w-full bg-gradient-to-b md:bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-teal-500">
+                            <iconify-icon icon="solar:server-square-linear" width="24" stroke-width="1.5"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide">LOCAL DB</span>
+                        <span class="text-xs text-slate-500">User Owned</span>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 w-[1px] md:h-[1px] md:w-full bg-gradient-to-b md:bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-teal-500">
+                            <iconify-icon icon="solar:magic-stick-3-linear" width="24" stroke-width="1.5"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide">AGENT</span>
+                        <span class="text-xs text-slate-500">Active Guidance</span>
+                    </div>
+
+                    <!-- Connector -->
+                    <div class="h-8 w-[1px] md:h-[1px] md:w-full bg-gradient-to-b md:bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-white shadow-[0_0_15px_rgba(20,184,166,0.2)]">
+                            <iconify-icon icon="solar:user-check-linear" width="24" stroke-width="1.5"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-medium text-slate-300 tracking-wide">ALIGNMENT</span>
+                        <span class="text-xs text-slate-500">Better Decisions</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Pain (Visibility) -->
+        <section>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-2xl font-medium text-white mb-4 tracking-tight">The Discipline Fallacy</h2>
+                    <p class="text-sm leading-relaxed mb-4">
+                        Modern life fragments attention. Most people believe they lack discipline. 
+                        <span class="text-white">They actually lack visibility.</span>
+                    </p>
+                    <p class="text-sm leading-relaxed">
+                        Existing platforms hide user behavior patterns to extract engagement. We reveal them to restore agency.
+                    </p>
+                </div>
+                
+                <div class="glass-panel p-6 rounded-lg space-y-6">
+                    <!-- Planned -->
+                    <div>
+                        <div class="flex justify-between text-xs mb-2 text-slate-400">
+                            <span>Planned Day (Intent)</span>
+                            <span>100% Focus</span>
+                        </div>
+                        <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full w-full bg-slate-600"></div>
+                        </div>
+                    </div>
+
+                    <!-- Actual -->
+                    <div>
+                        <div class="flex justify-between text-xs mb-2 text-slate-400">
+                            <span>Actual Day (Reality)</span>
+                            <span class="text-red-400">32% Fragmented</span>
+                        </div>
+                        <div class="h-3 w-full bg-slate-800 rounded-full flex gap-1 overflow-hidden">
+                            <!-- Visualizing fragmentation -->
+                            <div class="h-full w-12 bg-teal-900/50"></div>
+                            <div class="h-full w-4 bg-red-900/60"></div>
+                            <div class="h-full w-8 bg-teal-900/50"></div>
+                            <div class="h-full w-16 bg-red-900/60"></div>
+                            <div class="h-full w-6 bg-teal-900/50"></div>
+                            <div class="h-full w-2 bg-red-900/60"></div>
+                            <div class="h-full w-full bg-slate-800"></div>
+                        </div>
+                        <div class="mt-2 text-[10px] text-red-400/70 text-right">Invisible attention leaks</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: The Market (Intersection) -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-medium text-white tracking-tight">Category Creation</h2>
+                <p class="text-sm text-slate-500 mt-2">Self Mastery → Data Ownership → Personal AI Stack</p>
+            </div>
+            
+            <div class="relative h-64 flex items-center justify-center">
+                <!-- Circle 1 -->
+                <div class="absolute -translate-x-16 -translate-y-8 w-48 h-48 rounded-full border border-slate-700 bg-slate-900/50 flex items-center justify-center backdrop-blur-sm z-10 transition-transform hover:scale-105 duration-500">
+                    <span class="text-xs font-medium text-slate-400 transform -translate-y-6">Wearables</span>
+                </div>
+                <!-- Circle 2 -->
+                <div class="absolute translate-x-16 -translate-y-8 w-48 h-48 rounded-full border border-slate-700 bg-slate-900/50 flex items-center justify-center backdrop-blur-sm z-10 transition-transform hover:scale-105 duration-500">
+                    <span class="text-xs font-medium text-slate-400 transform -translate-y-6">Personal AI</span>
+                </div>
+                <!-- Circle 3 -->
+                <div class="absolute translate-y-16 w-48 h-48 rounded-full border border-slate-700 bg-slate-900/50 flex items-center justify-center backdrop-blur-sm z-10 transition-transform hover:scale-105 duration-500">
+                    <span class="text-xs font-medium text-slate-400 transform translate-y-6">Data Infra</span>
+                </div>
+                
+                <!-- Center Intersection -->
+                <div class="absolute z-20 w-20 h-20 rounded-full bg-teal-500/10 shadow-[0_0_30px_rgba(20,184,166,0.3)] flex items-center justify-center border border-teal-500/30">
+                    <iconify-icon icon="solar:stars-minimalistic-linear" class="text-teal-400 text-2xl"></iconify-icon>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Inevitability (Trends) -->
+        <section>
+            <div class="border-l-2 border-slate-800 pl-6 ml-4">
+                <h2 class="text-xl font-medium text-white mb-6">Why this is structural, not opinion.</h2>
+                <div class="space-y-8">
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-8 h-8 rounded bg-slate-900 border border-slate-700 flex-shrink-0 flex items-center justify-center group-hover:border-teal-500/50 transition-colors">
+                            <iconify-icon icon="solar:graph-up-linear" class="text-slate-400"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-slate-200">AI Value Shift</h3>
+                            <p class="text-xs text-slate-500 mt-1">Value is moving from general models to highly contextual, personal data.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-8 h-8 rounded bg-slate-900 border border-slate-700 flex-shrink-0 flex items-center justify-center group-hover:border-teal-500/50 transition-colors">
+                            <iconify-icon icon="solar:shield-user-linear" class="text-slate-400"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-slate-200">Sovereignty Demand</h3>
+                            <p class="text-xs text-slate-500 mt-1">Users are reaching peak fatigue with ad-surveillance models.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-8 h-8 rounded bg-slate-900 border border-slate-700 flex-shrink-0 flex items-center justify-center group-hover:border-teal-500/50 transition-colors">
+                            <iconify-icon icon="solar:database-linear" class="text-slate-400"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-slate-200">Local Data Ownership</h3>
+                            <p class="text-xs text-slate-500 mt-1">Users can store and query their data locally while leveraging cloud AI—keeping ownership without sacrificing capability.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Strategy (Trojan Horse) -->
+        <section class="grid md:grid-cols-5 gap-8">
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-medium text-white mb-4 tracking-tight">The Trojan Horse</h2>
+                <p class="text-sm leading-relaxed">
+                    We don't sell "infrastructure" initially. We sell <span class="text-white">Self Mastery</span>.
+                    <br><br>
+                    Identity adoption drives infrastructure adoption. People who want to master themselves have high willingness to pay and low churn.
+                </p>
+            </div>
+            <div class="md:col-span-3 grid grid-cols-2 gap-4">
+                <div class="glass-panel p-4 rounded bg-gradient-to-br from-slate-900 to-transparent">
+                    <div class="text-2xl font-medium text-white mb-1">High</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide">Retention</div>
+                </div>
+                <div class="glass-panel p-4 rounded bg-gradient-to-br from-slate-900 to-transparent">
+                    <div class="text-2xl font-medium text-white mb-1">High</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide">LTV</div>
+                </div>
+                <div class="glass-panel p-4 rounded bg-gradient-to-br from-slate-900 to-transparent col-span-2">
+                    <div class="text-2xl font-medium text-white mb-1">Deep</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide">Emotional Buy-in</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Trust Moat -->
+        <section class="flex flex-col items-center">
+            <h2 class="text-2xl font-medium text-white mb-8 tracking-tight">Trust as a Compounding Asset</h2>
+            
+            <div class="relative w-64 h-64 flex items-center justify-center">
+                <!-- Outer Ring -->
+                <div class="absolute w-full h-full rounded-full border border-dashed border-slate-700 flex items-center justify-center">
+                    <span class="absolute -top-3 bg-slate-950 px-2 text-[10px] text-slate-500">Permissioned AI</span>
+                </div>
+                <!-- Middle Ring -->
+                <div class="absolute w-40 h-40 rounded-full border border-slate-600 bg-slate-900/30 flex items-center justify-center">
+                    <span class="absolute -top-3 bg-slate-950 px-2 text-[10px] text-slate-400">Encrypted Local DB</span>
+                </div>
+                <!-- Core -->
+                <div class="absolute w-20 h-20 rounded-full bg-teal-900/20 border border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.15)] flex items-center justify-center">
+                    <span class="text-[10px] font-semibold text-teal-400">USER<br>ONLY</span>
+                </div>
+                
+                <!-- Radial Lines -->
+                <div class="absolute w-full h-[1px] bg-slate-800 rotate-45 z-[-1]"></div>
+                <div class="absolute w-full h-[1px] bg-slate-800 -rotate-45 z-[-1]"></div>
+            </div>
+            
+            <div class="mt-8 text-center text-sm text-slate-400 max-w-md">
+                Privacy by default. No data resale. <br>
+                The architecture is the promise.
+            </div>
+        </section>
+
+        <!-- SECTION 7: Incentive Misalignment -->
+        <section class="glass-panel rounded-xl overflow-hidden">
+            <div class="grid md:grid-cols-2">
+                <div class="p-8 border-b md:border-b-0 md:border-r border-white/5">
+                    <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-4">Big Tech</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-sm text-slate-400">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-900/50"></iconify-icon>
+                            Data Centralization
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-slate-400">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-900/50"></iconify-icon>
+                            Ad Optimization
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-slate-400">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-900/50"></iconify-icon>
+                            Behavior Capture
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-8 bg-slate-900/20">
+                    <h3 class="text-sm font-semibold text-teal-500/70 uppercase tracking-widest mb-4">Supacharger</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-teal-500"></iconify-icon>
+                            User Outcomes
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-teal-500"></iconify-icon>
+                            User Ownership
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-white">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-teal-500"></iconify-icon>
+                            Trust Longevity
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: Platform Roadmap (Interactive) -->
+        <section>
+            <h2 class="text-2xl font-medium text-white mb-8 tracking-tight">From Wedge to Platform</h2>
+            
+            <div class="glass-panel rounded-xl p-1">
+                <div class="grid grid-cols-3 gap-1 mb-6">
+                    <button onclick="switchTab(1)" id="tab-1" class="py-2 text-xs font-medium rounded bg-slate-800 text-white transition-all">1. Adoption</button>
+                    <button onclick="switchTab(2)" id="tab-2" class="py-2 text-xs font-medium rounded hover:bg-slate-800/50 text-slate-500 hover:text-white transition-all">2. Integration</button>
+                    <button onclick="switchTab(3)" id="tab-3" class="py-2 text-xs font-medium rounded hover:bg-slate-800/50 text-slate-500 hover:text-white transition-all">3. Expansion</button>
+                </div>
+
+                <div id="content-1" class="p-6 pt-0 animate-fade">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-teal-900/20 rounded-lg text-teal-400">
+                            <iconify-icon icon="solar:target-linear" width="24"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-white">Adoption</h3>
+                            <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                                All marketing, sales, and development focused on a single promise: <span class="text-white">help users reclaim their time and attention.</span> The wearable passively captures behavioral data, the AI surfaces invisible patterns, and the product delivers immediate, tangible value. This is the wedge—self-mastery as the entry point.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="px-2 py-1 text-[10px] font-medium uppercase tracking-wider rounded bg-teal-950/40 text-teal-400 border border-teal-900/50">Marketing</span>
+                                <span class="px-2 py-1 text-[10px] font-medium uppercase tracking-wider rounded bg-teal-950/40 text-teal-400 border border-teal-900/50">Sales</span>
+                                <span class="px-2 py-1 text-[10px] font-medium uppercase tracking-wider rounded bg-teal-950/40 text-teal-400 border border-teal-900/50">Development</span>
+                                <span class="px-2 py-1 text-[10px] font-medium uppercase tracking-wider rounded bg-slate-800 text-slate-400 border border-slate-700">Aligned on one mission</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-2" class="p-6 pt-0 hidden animate-fade">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-indigo-900/20 rounded-lg text-indigo-400">
+                            <iconify-icon icon="solar:server-path-linear" width="24"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-white">Integration</h3>
+                            <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                                Expand the data surface. Feed structured data from <span class="text-white">banks, browser history, health wearables, and GPS</span> into the user's personal database. Then make that data accessible through multiple interfaces—voice, chat, dashboards, and scheduled reports. The system becomes the user's single source of truth about their own life.
+                            </p>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:card-linear" class="text-indigo-400" width="16"></iconify-icon>
+                                    Bank &amp; Finance
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:global-linear" class="text-indigo-400" width="16"></iconify-icon>
+                                    Browser Activity
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:heart-pulse-linear" class="text-indigo-400" width="16"></iconify-icon>
+                                    Health Wearables
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:map-point-linear" class="text-indigo-400" width="16"></iconify-icon>
+                                    GPS &amp; Location
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-3" class="p-6 pt-0 hidden animate-fade">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-blue-900/20 rounded-lg text-blue-400">
+                            <iconify-icon icon="solar:code-circle-linear" width="24"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-white">Expansion</h3>
+                            <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                                Open the platform. Third-party developers build <span class="text-white">custom agents, custom wearables, new UI surfaces, and their own data streams</span> that seamlessly integrate into the user's personal database. The user's data stays sovereign—developers query it with explicit permission. Supacharger becomes the ecosystem layer for personal data infrastructure.
+                            </p>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center gap-3 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:magic-stick-3-linear" class="text-blue-400" width="16"></iconify-icon>
+                                    Third-party agents with permissioned data access
+                                </div>
+                                <div class="flex items-center gap-3 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:monitor-linear" class="text-blue-400" width="16"></iconify-icon>
+                                    Custom wearables, UI surfaces and dashboards
+                                </div>
+                                <div class="flex items-center gap-3 text-xs text-slate-400">
+                                    <iconify-icon icon="solar:database-linear" class="text-blue-400" width="16"></iconify-icon>
+                                    Developer-built data connectors and streams
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: Network Effect -->
+        <section class="text-center py-12 border-y border-white/5">
+            <h2 class="text-xl font-medium text-white mb-2">The Interface Layer</h2>
+            <p class="text-sm text-slate-500 max-w-lg mx-auto">
+                By becoming the trust layer between humans and AI, we become the default interface for the future of computing.
+            </p>
+        </section>
+
+        <!-- SECTION 10 & 11: Business Model & Why Now -->
+        <section class="grid md:grid-cols-2 gap-16">
+            <div>
+                <h3 class="text-sm font-semibold text-white uppercase tracking-widest mb-6">Business Model</h3>
+                <div class="rounded-lg p-5">
+                    <p class="text-xs text-slate-200 leading-relaxed">
+                        Revenue generated directly from hardware sales. Sold at <span class="text-white font-medium">$499</span> with a production cost of <span class="text-white font-medium">$200</span>.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-white uppercase tracking-widest mb-6">Why Now</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-4">
+                    <strong class="text-slate-200">1. LLM Capability:</strong> Cloud AI is now powerful enough to deliver deep personal insights from structured local data.
+                </p>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    <strong class="text-slate-200">2. Privacy Awakening:</strong> The market is actively seeking alternatives to surveillance capitalism.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 12: Emotional Close -->
+        <section class="min-h-[40vh] flex items-center justify-center text-center">
+            <div class="max-w-2xl">
+                <p class="text-xl md:text-3xl font-light text-slate-300 leading-tight">
+                    The modern world is optimized to capture attention and extract data.
+                </p>
+                <div class="h-8"></div>
+                <p class="text-xl md:text-3xl font-medium text-white leading-tight">
+                    We are building the system that helps people take both back—and turn them into better life outcomes.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 13: CTA -->
+        <section id="contact" class="pb-20">
+            <div class="glass-panel p-10 rounded-2xl text-center max-w-lg mx-auto">
+                <h2 class="text-lg font-medium text-white mb-2">Join the Infrastructure</h2>
+                <p class="text-sm text-slate-500 mb-8">Seeking long-term aligned partners.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <a href="mailto:founders@supacharger.inc" class="w-full py-3 bg-white text-slate-950 text-sm font-semibold rounded hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+                        <iconify-icon icon="solar:letter-linear"></iconify-icon>
+                        Contact Founders
+                    </a>
+                    <button class="w-full py-3 bg-transparent border border-white/10 text-slate-300 text-sm font-medium rounded hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+                        <iconify-icon icon="solar:file-download-linear"></iconify-icon>
+                        Download Memo
+                    </button>
+                </div>
+            </div>
+            
+            <footer class="mt-20 text-center text-[10px] text-slate-700 uppercase tracking-widest">
+                Supacharger Systems Inc. © 2024
+            </footer>
+        </section>
+
+    </main>
+
+    <script>
+        // Simple Tab Switcher Logic
+        function switchTab(id) {
+            // Reset Tabs
+            [1, 2, 3].forEach(i => {
+                const btn = document.getElementById(`tab-${i}`);
+                const content = document.getElementById(`content-${i}`);
+                
+                if (i === id) {
+                    btn.classList.remove('text-slate-500', 'hover:bg-slate-800/50', 'hover:text-white', 'bg-transparent');
+                    btn.classList.add('bg-slate-800', 'text-white');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.add('text-slate-500', 'hover:bg-slate-800/50', 'hover:text-white', 'bg-transparent');
+                    btn.classList.remove('bg-slate-800', 'text-white');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+</body></html>
