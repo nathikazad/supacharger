@@ -725,11 +725,7 @@
         const toggleBtn = document.getElementById('theme-toggle');
         const html = document.documentElement;
 
-        if (localStorage.theme === 'light' || (!('theme' in localStorage) && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.remove('dark');
-        } else {
-            html.classList.add('dark');
-        }
+        html.classList.add('dark');
 
         toggleBtn.addEventListener('click', () => {
             if (html.classList.contains('dark')) {
