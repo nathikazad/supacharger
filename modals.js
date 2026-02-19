@@ -102,6 +102,7 @@
           <h3 class="text-2xl font-medium text-slate-900 dark:text-white tracking-tight">Our Solution</h3>
           <div class="space-y-4">
             <p>We believe that while your child is in your home, growing under your guidance, you have every right to see and direct what influences them. <strong class="text-slate-900 dark:text-white">Including AI.</strong></p>
+            <p>That means: </p>
             <ul class="list-disc list-outside space-y-2 pl-6">
               <li>Help you seamlessly monitor the development of your child.</li>
               <li>Granular control over the values, boundaries, and guidance the AI provides.</li>
