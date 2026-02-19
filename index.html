@@ -4,7 +4,7 @@
     <title>Supacharger.ai | Your AI Life Coach</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -13,7 +13,8 @@
                     animation: {
                         'blob': 'blob 7s infinite',
                         'blob-delayed': 'blob 7s infinite 2s',
-                        'float': 'float 6s ease-in-out infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         blob: {
@@ -24,7 +25,7 @@
                         },
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '50%': { transform: 'translateY(-15px)' },
                         }
                     }
                 }
@@ -33,8 +34,7 @@
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
-        
-        /* Glassmorphism that adapts to dark mode */
+
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(16px);
@@ -46,7 +46,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Unicorn Studio Style Background Mesh */
         .mesh-bg {
             position: fixed;
             top: 0;
@@ -55,12 +54,12 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
         }
         .dark .mesh-bg {
-            background-color: #020617; /* slate-950 */
+            background-color: #020617;
         }
-        
+
         .mesh-blob {
             position: absolute;
             border-radius: 50%;
@@ -72,530 +71,529 @@
             filter: blur(100px);
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        /* Triangle Clip for Images/Divs if needed, though we use SVG for main device */
-        .triangle-shape {
-            clip-path: polygon(50% 100%, 0 0, 100% 0);
+
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Swipeable carousel */
-        .moments-carousel {
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            touch-action: pan-x pan-y;
-            cursor: grab;
+        .reveal-fade {
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .moments-carousel::-webkit-scrollbar { display: none; }
-        .moments-carousel:active { cursor: grabbing; }
-        .moments-track {
-            display: flex;
-            gap: 1.5rem;
-            padding: 0.25rem 1rem;
-            min-width: min-content;
-        }
-        .moments-card {
-            flex: 0 0 min(88vw, 340px);
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
+        .reveal-fade.active {
+            opacity: 1;
         }
 
-        /* Carousel chevrons */
-        .carousel-wrapper { position: relative; }
-        .carousel-chevron {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            width: 2.5rem;
-            height: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(148,163,184,0.3);
-            color: rgb(71,85,105);
-            opacity: 0.5;
-            transition: opacity 0.2s, background 0.2s;
-            cursor: pointer;
-            pointer-events: auto;
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .carousel-chevron:hover { opacity: 1; background: rgba(255,255,255,0.95); }
-        .dark .carousel-chevron {
-            background: rgba(30,41,59,0.8);
-            border-color: rgba(71,85,105,0.3);
-            color: rgb(148,163,184);
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
         }
-        .dark .carousel-chevron:hover { background: rgba(30,41,59,0.95); }
-        .carousel-chevron-left { left: 0.5rem; }
-        .carousel-chevron-right { right: 0.5rem; }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+        .stagger-7 { transition-delay: 0.7s; }
+        .stagger-8 { transition-delay: 0.8s; }
+        .stagger-9 { transition-delay: 0.9s; }
+
+        .reveal-drama {
+            opacity: 0;
+            transform: scale(0.94);
+            filter: blur(10px);
+            transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1.5s ease-out;
+        }
+        .reveal-drama.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0px);
+        }
+
+        .hardware-shine-svg {
+            animation: shine-svg 6s infinite;
+        }
+        @keyframes shine-svg {
+            0%, 80% { x: -150%; }
+            100% { x: 150%; }
+        }
+
+        .line-through-anim {
+            text-decoration: none;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-position: 0% 50%;
+            background-repeat: no-repeat;
+            background-size: 0% 2px;
+            transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .line-through-anim.active {
+            background-size: 100% 2px;
+        }
     </style>
 </head>
 <body class="antialiased text-slate-900 dark:text-slate-100 selection:bg-teal-200 selection:text-teal-900 transition-colors duration-300">
 
-    <!-- Unicorn Studio Style Background -->
+    <!-- Background -->
     <div class="mesh-bg transition-colors duration-300">
-        <!-- Light Mode Blobs -->
         <div class="mesh-blob bg-teal-200 w-96 h-96 top-0 left-0 animate-blob mix-blend-multiply dark:hidden"></div>
         <div class="mesh-blob bg-indigo-200 w-96 h-96 top-0 right-0 animate-blob-delayed mix-blend-multiply dark:hidden"></div>
         <div class="mesh-blob bg-purple-200 w-80 h-80 bottom-0 left-1/4 animate-blob mix-blend-multiply dark:hidden"></div>
-        
-        <!-- Dark Mode Blobs (Darker, subtler) -->
         <div class="mesh-blob bg-teal-900/40 w-[600px] h-[600px] top-[-10%] left-[-10%] animate-blob hidden dark:block"></div>
         <div class="mesh-blob bg-indigo-900/30 w-[600px] h-[600px] top-[20%] right-[-10%] animate-blob-delayed hidden dark:block"></div>
         <div class="mesh-blob bg-slate-800/50 w-[800px] h-[800px] bottom-[-20%] left-[20%] animate-blob hidden dark:block"></div>
+        <div id="dawn-light" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] bg-teal-100/0 dark:bg-teal-900/0 blur-[120px] rounded-full transition-all duration-[2000ms] -z-10"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-panel border-b border-slate-200/50 dark:border-white/5 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="#" class="text-lg tracking-tighter font-semibold text-slate-900 dark:text-white">Supacharger.ai</a>
-            
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500 dark:text-slate-400">
-                    <a href="#how-it-works" class="hover:text-slate-900 dark:hover:text-white transition-colors">How it Works</a>
-                    <a href="investor.html" class="hover:text-slate-900 dark:hover:text-white transition-colors">For Investors</a>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors" aria-label="Toggle Dark Mode">
-                        <iconify-icon icon="solar:sun-linear" width="20" class="hidden dark:block"></iconify-icon>
-                        <iconify-icon icon="solar:moon-linear" width="20" class="block dark:hidden"></iconify-icon>
-                    </button>
-                    
-                    <a href="#preorder" class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-full hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors text-sm font-medium">Reserve</a>
-                </div>
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors" aria-label="Toggle Dark Mode">
+                    <iconify-icon icon="solar:sun-linear" width="20" class="hidden dark:block"></iconify-icon>
+                    <iconify-icon icon="solar:moon-linear" width="20" class="block dark:hidden"></iconify-icon>
+                </button>
+                <a href="#preorder" class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 rounded-full hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors text-sm font-medium">Reserve</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 mb-8 shadow-sm backdrop-blur-sm">
-                <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                </span>
-                Accepting Early Access Pre-orders
+    <!-- ============================================ -->
+    <!-- ACT 1: THE QUESTION                          -->
+    <!-- ============================================ -->
+    <section class="min-h-screen flex items-center justify-center px-6 relative">
+        <div class="max-w-3xl mx-auto text-center space-y-10 md:space-y-14">
+            <p class="reveal text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.2]">
+                Have you ever had one of those days
+            </p>
+            <p class="reveal stagger-2 text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                Where you woke up wanting to do a lot
+            </p>
+            <p class="reveal stagger-4 text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                But at the end of the day, it felt like you didn't get anything done
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 2: THE UNRAVELING                        -->
+    <!-- ============================================ -->
+    <section class="py-24 md:py-40 px-6">
+        <div class="max-w-2xl mx-auto space-y-8 md:space-y-10">
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                You made your list of todos the previous night.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                You told yourself tomorrow will be different.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light">
+                But before you even get out of bed, you're already scrolling.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-400 dark:text-slate-500 font-light">
+                Then you promise yourself a few minutes of Instagram.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-400 dark:text-slate-500 font-light">
+                Next thing you know, it's <span class="text-slate-900 dark:text-white font-bold">3 hours</span> later.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed pt-4">
+                That same to-do list — the one that felt so reasonable last night — now starts towering over you.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
+                The longer you look at it, the heavier it gets.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                So you reach for your phone again. Not because you want to — but because it is easier to numb the feeling of anxiety than to face it.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-400 dark:text-slate-500 font-light leading-relaxed pt-4">
+                And the day ends the same way as the previous day.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 3: THE QUIET FRUSTRATION                 -->
+    <!-- ============================================ -->
+    <section class="min-h-[70vh] flex items-center justify-center px-6 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-100/50 to-transparent dark:via-slate-900/30 pointer-events-none"></div>
+        <div class="max-w-2xl mx-auto text-center relative z-10">
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light mb-6">
+                And at night, there's that quiet frustration again:
+            </p>
+            <p class="reveal stagger-3 text-2xl md:text-4xl lg:text-5xl font-medium text-slate-900 dark:text-white tracking-tight leading-tight">
+                "I know I'm capable of more than this."
+            </p>
+            <p class="reveal stagger-5 mt-10 text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                And you can't help but question yourself, "What's wrong with me? Why can't I do this?"
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 4+5: THE INDICTMENT                      -->
+    <!-- ============================================ -->
+    <section class="py-24 md:py-40 px-6">
+        <div class="max-w-2xl mx-auto space-y-8 md:space-y-10">
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                You blame yourself. Everyone does.
+            </p>
+            <p class="reveal text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug">
+                But the Truth is, you never had a chance.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                The most well-funded companies in human history hired armies of PhDs — psychologists, neuroscientists, behavioral economists — with one job: keep you glued to your phone for as long as possible.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                They built systems to learn everything about you — your fears, your cravings, your weaknesses — and exploit them against you, to keep you hooked. 
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                So they can then package your attention and auction it off to the highest bidder.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                Their business model requires you to lose your day. When you can't put your phone down, for them it is <span class="text-slate-900 dark:text-white font-normal">a success metric</span> on some chart that can be cashed in for a profit.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
+                But for you, it results in Personal Failure.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 5.5: THE STAKES — AI ENTERS              -->
+    <!-- ============================================ -->
+    <section class="py-24 md:py-40 px-6">
+        <div class="max-w-2xl mx-auto space-y-8 md:space-y-10">
+            <p class="reveal text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight">
+                And now AI is entering the story.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                It will learn you and your weaknesses even more deeply.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                And it will generate content perfectly matched to your last desire.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                An endless stream that satisfies your every impulse, fills your every silence and soothes your every discomfort.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                Night after night, you'll sink a little deeper. Not into darkness — into something worse. A soft, warm, perfectly lit nothing.
+            </p>
+            <p class="reveal text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                And that person you wanted to be — the one who never stopped believing in you, who never stopped knocking — will slowly be buried under the weight of a thousand artificial highs.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
+                Until the knocking fades. Until you forget anyone was ever there.
+            </p>
+            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
+                The lights will be on, but nobody will be home.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 6: THE TURN                              -->
+    <!-- ============================================ -->
+    <section class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden" id="the-turn">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-teal-50/80 to-teal-100/50 dark:via-teal-950/20 dark:to-teal-900/10 opacity-0 transition-opacity duration-1000" id="turn-bg"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-900 blur-[150px] rounded-full opacity-0 scale-50 transition-all duration-[2000ms]" id="turn-orb"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10 text-center space-y-8 md:space-y-12">
+            <div class="reveal-drama space-y-4">
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-slate-900 to-slate-600 dark:from-white dark:to-slate-400 tracking-tight leading-[1.1]">
+                    But your future<br>doesn't need to end like that.
+                </h2>
             </div>
-            
-            <h1 class="text-5xl md:text-7xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-6">
-                Your AI Life Coach.<br>
-            </h1>
-            
-            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
-                An AI life coach embedded in a necklace that helps you stay aligned with what matters the most to you.
+
+            <div class="reveal-drama stagger-4 max-w-2xl mx-auto space-y-6">
+                <p class="text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                    That's why we built an AI life coach.
+                </p>
+                <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                    A system that learns about you just as deeply — your patterns, your triggers, your rhythms — but with a completely different goal.
+                </p>
+                <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                    Not to steal your attention, but to protect it. Not to pull you away from your goals, but to keep pulling you back toward them.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 7: THE CALM PRESENCE (Product + Features)-->
+    <!-- ============================================ -->
+    <section class="py-24 md:py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+
+            <!-- Intro text -->
+            <div class="reveal text-center mb-16 md:mb-20">
+                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug max-w-2xl mx-auto">
+                    We built a smart necklace that can see, hear and respond to you in real time.
+                </p>
+            </div>
+
+            <!-- Device Visual - Triangle Pendant (inverted) -->
+            <div class="reveal-scale flex justify-center mb-24 md:mb-32 h-[450px] items-center relative">
+
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-slate-200 to-teal-100 dark:from-slate-800 dark:to-teal-900/30 rounded-full blur-3xl opacity-50 animate-pulse-slow"></div>
+
+                <div class="relative animate-float group cursor-pointer">
+
+                    <svg class="absolute bottom-[80%] left-1/2 -translate-x-1/2 w-64 h-64 pointer-events-none" viewBox="0 0 100 100" fill="none">
+                        <path d="M50 100 C 50 80, 48 50, 20 0" stroke="url(#chainGrad)" stroke-width="0.5" opacity="0.6"></path>
+                        <path d="M50 100 C 50 80, 52 50, 80 0" stroke="url(#chainGrad)" stroke-width="0.5" opacity="0.6"></path>
+                        <defs>
+                            <linearGradient id="chainGrad" x1="50" y1="100" x2="50" y2="0" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="currentColor" class="text-slate-400 dark:text-slate-500" />
+                                <stop offset="100%" stop-color="currentColor" class="text-slate-200 dark:text-slate-800" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <div class="w-[180px] h-[180px] relative transition-transform duration-700 group-hover:scale-105">
+
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-teal-500/20 blur-2xl rounded-full -translate-y-8"></div>
+
+                        <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-2xl">
+                            <defs>
+                                <linearGradient id="bodyGradient" x1="90" y1="0" x2="90" y2="180" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#f8fafc" class="dark:[stop-color:#1e293b]" />
+                                    <stop offset="100%" stop-color="#e2e8f0" class="dark:[stop-color:#0f172a]" />
+                                </linearGradient>
+                                <linearGradient id="rimGradient" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="white" stop-opacity="0.9" />
+                                    <stop offset="100%" stop-color="#94a3b8" stop-opacity="0.3" />
+                                </linearGradient>
+                                <linearGradient id="lensGradient" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#334155" />
+                                    <stop offset="100%" stop-color="#020617" />
+                                </linearGradient>
+
+                                <path id="trianglePath" d="M90 155 L155 45 L25 45 Z" stroke-linejoin="round" stroke-width="16" />
+
+                                <clipPath id="triangleClip">
+                                    <use href="#trianglePath" />
+                                </clipPath>
+
+                                <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stop-color="transparent" />
+                                    <stop offset="50%" stop-color="white" stop-opacity="0.3" />
+                                    <stop offset="100%" stop-color="transparent" />
+                                </linearGradient>
+                            </defs>
+
+                            <use href="#trianglePath" fill="url(#bodyGradient)" stroke="url(#bodyGradient)" />
+
+                            <g clip-path="url(#triangleClip)">
+                                <rect x="-100%" y="0" width="100%" height="180" fill="url(#shineGrad)" class="hardware-shine-svg" style="transform: skewX(-20deg);" />
+                            </g>
+
+                            <use href="#trianglePath" fill="none" stroke="url(#rimGradient)" stroke-width="1.5" />
+
+                            <g transform="translate(90, 100)">
+                                <circle r="8" fill="#e2e8f0" class="dark:fill-slate-600" stroke="url(#rimGradient)" stroke-width="0.5"/>
+                                <circle r="6" fill="#1e293b" class="dark:fill-slate-900" />
+                                <circle r="4" fill="url(#lensGradient)" />
+                                <circle cx="-1.5" cy="-1.5" r="1.5" fill="white" opacity="0.4" filter="blur(0.5px)" />
+                                <circle cx="1" cy="1" r="0.5" fill="#38bdf8" opacity="0.6" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What it does — flowing from the narrative -->
+            <div class="max-w-2xl mx-auto space-y-16 md:space-y-20">
+                <div class="reveal">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="solar:eye-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
+                        </div>
+                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                            It notices when your focus starts drifting — and <span class="text-slate-900 dark:text-white font-normal">gently pulls you back</span>.
+                        </p>
+                    </div>
+                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
+                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">"You told me this morning you'd finish the proposal, but you've been avoiding it for two hours. Let's just open the document — that's all. Just a few minutes and we'll see how it goes."</p>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="solar:list-check-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
+                        </div>
+                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                            It helps you break big, intimidating tasks into <span class="text-slate-900 dark:text-white font-normal">clear next steps</span>.
+                        </p>
+                    </div>
+                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
+                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know this project feels huge. But the next real step is just writing the outline. What do you say we just block off an hour and give it a fair shot?"</p>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="solar:heart-pulse-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
+                        </div>
+                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                            It reminds you <span class="text-slate-900 dark:text-white font-normal">why something matters</span> when your motivation fades.
+                        </p>
+                    </div>
+                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
+                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know getting that proposal rejected feels like a gut punch. All that work for nothing. But you're on a 22-day workout streak. If you lose it, you're going to feel even worse. What do you say we just do a quick workout and get your mind off this for a bit? You know you'll feel better afterwards."</p>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="solar:bolt-circle-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
+                        </div>
+                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                            It helps you untangle your thoughts when they feel <span class="text-slate-900 dark:text-white font-normal">chaotic</span>.
+                        </p>
+                    </div>
+                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
+                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
+                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know that unexpected call from your boss has thrown off your entire day. But we still have 6 hour left. What do you say, we re-triage the most important todos and see what we can get done?"</p>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                        Over time, it understands your rhythms — when you think best, when you need breaks, what gives you energy, what drains it.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ACT 8: THE EXHALE                            -->
+    <!-- ============================================ -->
+    <section class="py-24 md:py-40 px-6">
+        <div class="max-w-3xl mx-auto text-center space-y-16 md:space-y-20">
+
+            <div>
+                <p class="reveal text-xl md:text-2xl text-slate-400 dark:text-slate-500 font-light leading-relaxed mb-4">
+                    So instead of fighting yourself every day…
+                </p>
+                <p class="reveal stagger-2 text-3xl md:text-5xl font-medium text-slate-900 dark:text-white tracking-tight">
+                    You start working <span class="text-teal-600 dark:text-teal-400 italic">with</span> yourself.
+                </p>
+            </div>
+
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed max-w-xl mx-auto">
+                Your tools, instead of robbing you of your attention, help you conserve it and direct it towards the tasks most important to you.
             </p>
 
-            <div class="flex flex-row items-center justify-center gap-4">
-                <a href="#preorder" class="flex-1 sm:flex-none min-w-0 px-4 sm:px-8 py-3.5 text-center bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-full hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg shadow-slate-900/10 dark:shadow-white/5">
-                    Pre-Order the Device
-                </a>
-                <a href="#how-it-works" class="flex-1 sm:flex-none min-w-0 px-4 sm:px-8 py-3.5 text-center bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-sm font-medium rounded-full hover:border-slate-300 dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-800 transition-all backdrop-blur-sm">
-                    See How It Works
-                </a>
-            </div>
-        </div>
+            <p class="reveal text-2xl md:text-4xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-teal-700 dark:from-slate-200 dark:to-teal-400 tracking-tight leading-snug max-w-2xl mx-auto">
+                And that person you knew you could be — will slowly start emerging from the chaos, one day at a time.
+            </p>
 
-        <!-- Abstract Product Visualization -->
-        <div class="mt-24 relative max-w-lg mx-auto h-80 mb-32 md:mb-0 flex items-center justify-center">
-            
-            <!-- The Necklace Chain (SVG) -->
-            <svg class="absolute top-[-100px] w-full h-[400px] opacity-40 dark:opacity-20 pointer-events-none" viewBox="0 0 400 400" fill="none">
-                <path d="M100 0 C 100 250, 300 250, 300 0" stroke="currentColor" stroke-width="1.5" class="text-slate-400 dark:text-slate-600" vector-effect="non-scaling-stroke"></path>
-            </svg>
-
-            <!-- The Triangular Device -->
-            <div class="relative z-10 animate-float">
-                <!-- Glow behind -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-teal-500/30 dark:bg-teal-400/20 blur-[60px] rounded-full"></div>
-                
-                <!-- SVG Device -->
-                <svg width="140" height="140" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-2xl">
-                    <defs>
-                        <linearGradient id="deviceGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" class="stop-color-slate-800 dark:stop-color-slate-900" style="stop-color: currentColor;"></stop>
-                            <stop offset="100%" class="stop-color-black dark:stop-color-black" style="stop-color: currentColor;"></stop>
-                        </linearGradient>
-                        <linearGradient id="borderGrad" x1="50" y1="0" x2="50" y2="100" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" class="stop-color-slate-600 dark:stop-color-slate-700" style="stop-color: currentColor;"></stop>
-                            <stop offset="100%" class="stop-color-slate-800 dark:stop-color-slate-900" style="stop-color: currentColor;"></stop>
-                        </linearGradient>
-                    </defs>
-                    <!-- Triangular Pendant Shape -->
-                    <path d="M18 18 L82 18 L50 73.43 Z" fill="url(#deviceGrad)" stroke="url(#borderGrad)" stroke-width="1.5"></path>
-                    
-                    <!-- Inner LED/Indicator -->
-                    <circle cx="50" cy="35" r="1.5" class="fill-teal-400 animate-pulse"></circle>
-                    <circle cx="50" cy="35" r="8" class="stroke-teal-500/20" stroke-width="1"></circle>
-                </svg>
-            </div>
-
-            <!-- Reflection/Insight UI -->
-            <div class="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto -bottom-28 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:-right-24 glass-panel p-4 rounded-xl shadow-sm max-w-[200px] text-xs text-slate-600 dark:text-slate-300 transition-colors">
-                <div class="flex items-center gap-2 mb-2">
-                    <iconify-icon icon="solar:graph-up-linear" class="text-teal-600 dark:text-teal-400"></iconify-icon>
-                    <span class="font-medium text-slate-900 dark:text-white">Focus Alert</span>
-                </div>
-                "You original goal was to finish writing the blog post. You have already spent 30 minutes on social media. Should we get back to work now or wait till later? "
-            </div>
         </div>
     </section>
 
-    <!-- Transformation Section -->
-    <section class="py-24 bg-white/50 dark:bg-slate-900/50 border-y border-slate-100 dark:border-white/5 backdrop-blur-sm">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
-                <!-- Before -->
-                <div class="relative">
-                    <div class="absolute -inset-6 bg-rose-50 dark:bg-rose-900/10 rounded-2xl -z-10 opacity-50"></div>
-                    <div class="flex items-center gap-3 mb-6 text-teal-700 dark:text-teal-400">
-                        <iconify-icon icon="solar:history-linear" width="24"></iconify-icon>
-                        <span class="uppercase tracking-widest text-xs font-semibold">Before Supacharger.ai</span>
-                    </div>
-                    <h3 class="text-2xl font-medium tracking-tight text-slate-900 dark:text-white mb-4">Reactive Living</h3>
-                    <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                        Life feels like it's happening to you. You rely on fading memory, fleeting willpower, and dozens of disconnected notification-heavy apps.
-                    </p>
-                    <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-200 font-medium">
-                        <li class="flex items-center gap-2">
-                            <iconify-icon icon="solar:close-circle-linear" class="text-teal-600 dark:text-teal-400"></iconify-icon> Disconnected data
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <iconify-icon icon="solar:close-circle-linear" class="text-teal-600 dark:text-teal-400"></iconify-icon> Anxiety-inducing notifications
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- After -->
-                <div class="relative">
-                    <div class="absolute -inset-6 bg-teal-50 dark:bg-teal-900/10 rounded-2xl -z-10 opacity-50"></div>
-                    <div class="flex items-center gap-3 mb-6 text-teal-700 dark:text-teal-400">
-                        <iconify-icon icon="solar:stars-minimalistic-linear" width="24"></iconify-icon>
-                        <span class="uppercase tracking-widest text-xs font-semibold">After Supacharger.ai</span>
-                    </div>
-                    <h3 class="text-2xl font-medium tracking-tight text-slate-900 dark:text-white mb-4">Intentional Mastery</h3>
-                    <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                        You see how you actually live. You receive calm, real-time guidance grounded in reality. You stop drifting and start planning days based on what truly works for you.
-                    </p>
-                    <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-200 font-medium">
-                        <li class="flex items-center gap-2">
-                            <iconify-icon icon="solar:check-circle-linear" class="text-teal-600 dark:text-teal-400"></iconify-icon> Real-time alignment
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <iconify-icon icon="solar:check-circle-linear" class="text-teal-600 dark:text-teal-400"></iconify-icon> Passive tracking, active insight
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-24 px-6 relative">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 dark:text-white mb-4">Finally, an AI that helps you live.</h2>
-                <p class="text-slate-500 dark:text-slate-400 mb-8">Not a distraction. A silent partner in self-mastery.</p>
-                <a href="#" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-full hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
-                    <iconify-icon icon="solar:play-circle-linear" width="20"></iconify-icon>
-                    Watch Demo
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Step 1 -->
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center mb-6 text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-700">
-                        <iconify-icon icon="solar:user-linear" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">1. Wear</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                        The pendant passively captures life context with zero friction. No screen. No constant interaction. Always there.
-                    </p>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center mb-6 text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-700">
-                        <iconify-icon icon="solar:cpu-linear" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">2. Learn</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Your AI learns your attention patterns, energy rhythms, spending behavior, focus windows, and distraction triggers.
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center mb-6 text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-700">
-                        <iconify-icon icon="solar:chat-round-line-linear" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">3. Guide</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Throughout the day, it helps you stay on task, suggests realistic next actions, and helps you plan pragmatically.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Real Life Moments: Guidance (AI-started) -->
-    <section class="py-24 px-6 overflow-hidden">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-center text-2xl font-medium text-slate-900 dark:text-white mb-16 tracking-tight">Guidance in the moment, not after.</h2>
-
-            <div class="carousel-wrapper">
-                <button type="button" class="carousel-chevron carousel-chevron-left" aria-label="Previous" data-carousel="guidance">
-                    <iconify-icon icon="solar:alt-arrow-left-linear" width="20" height="20"></iconify-icon>
-                </button>
-                <div class="moments-carousel" id="guidance-carousel">
-                    <div class="moments-track" id="guidance-track"></div>
-                </div>
-                <button type="button" class="carousel-chevron carousel-chevron-right" aria-label="Next" data-carousel="guidance">
-                    <iconify-icon icon="solar:alt-arrow-right-linear" width="20" height="20"></iconify-icon>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Know Yourself (user-started) -->
-    <section class="py-24 px-6 overflow-hidden bg-slate-50/50 dark:bg-slate-900/30">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-center text-2xl font-medium text-slate-900 dark:text-white mb-16 tracking-tight">Track yourself at ease.</h2>
-
-            <div class="carousel-wrapper">
-                <button type="button" class="carousel-chevron carousel-chevron-left" aria-label="Previous" data-carousel="know">
-                    <iconify-icon icon="solar:alt-arrow-left-linear" width="20" height="20"></iconify-icon>
-                </button>
-                <div class="moments-carousel" id="know-carousel">
-                    <div class="moments-track" id="know-track"></div>
-                </div>
-                <button type="button" class="carousel-chevron carousel-chevron-right" aria-label="Next" data-carousel="know">
-                    <iconify-icon icon="solar:alt-arrow-right-linear" width="20" height="20"></iconify-icon>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Privacy / Hardware Section (Dark by default, adjusting to theme) -->
-    <section id="privacy" class="py-24 px-6 bg-slate-900 text-white relative overflow-hidden rounded-t-[3rem] shadow-2xl">
-        <!-- Grid Pattern -->
+    <!-- ============================================ -->
+    <!-- PRIVACY / HARDWARE                           -->
+    <!-- ============================================ -->
+    <section class="py-24 px-6 bg-slate-900 text-white relative overflow-hidden rounded-t-[3rem] shadow-2xl">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#64748b 1px, transparent 1px); background-size: 32px 32px;"></div>
 
         <div class="max-w-6xl mx-auto relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                
-                <!-- Content -->
                 <div>
-                    <div class="inline-flex items-center gap-2 text-teal-400 mb-6">
+                    <div class="reveal inline-flex items-center gap-2 text-teal-400 mb-6">
                         <iconify-icon icon="solar:shield-keyhole-linear" width="20"></iconify-icon>
                         <span class="text-xs font-bold tracking-widest uppercase">Private Infrastructure</span>
                     </div>
-                    <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-6">Your Life Data.<br>Physically Yours.</h2>
-                    <p class="text-slate-400 text-lg leading-relaxed mb-8">
-                        Unlike cloud-only AI tools, your data lives on a <strong>personal database server</strong>. A small device that plugs into your wall socket and runs quietly in your home.
+                    <h2 class="reveal text-3xl md:text-5xl font-medium tracking-tight mb-6">It's Your Data.<br>Not theirs.</h2>
+                    <p class="reveal text-slate-400 text-lg leading-relaxed mb-8">
+                        You data is your truth, you need to guard it, so others can't manipulate it or use it against you. That's why your data lives on your own <strong>personal database server</strong>. A credit card sized device that plugs into your wall socket and runs quietly in your home.
                     </p>
-                    
+
                     <div class="space-y-6">
-                        <div class="flex gap-4">
-                            <div class="mt-1 text-slate-500">
-                                <iconify-icon icon="solar:lock-password-unlocked-linear" width="24"></iconify-icon>
-                            </div>
+                        <div class="reveal flex gap-4">
+                            <div class="mt-1 text-slate-500"><iconify-icon icon="solar:lock-password-unlocked-linear" width="24"></iconify-icon></div>
                             <div>
                                 <h4 class="font-medium text-white">Local-First Architecture</h4>
                                 <p class="text-sm text-slate-400 mt-1">Stores your life data locally. Encrypted by default.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 text-slate-500">
-                                <iconify-icon icon="solar:key-minimalistic-linear" width="24"></iconify-icon>
-                            </div>
+                        <div class="reveal stagger-1 flex gap-4">
+                            <div class="mt-1 text-slate-500"><iconify-icon icon="solar:key-minimalistic-linear" width="24"></iconify-icon></div>
                             <div>
                                 <h4 class="font-medium text-white">Permissioned Access</h4>
                                 <p class="text-sm text-slate-400 mt-1">You control exactly which AI agents can read which data.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 text-slate-500">
-                                <iconify-icon icon="solar:code-square-linear" width="24"></iconify-icon>
-                            </div>
+                        <div class="reveal stagger-2 flex gap-4">
+                            <div class="mt-1 text-slate-500"><iconify-icon icon="solar:code-square-linear" width="24"></iconify-icon></div>
                             <div>
                                 <h4 class="font-medium text-white">Source Available</h4>
-                                <p class="text-sm text-slate-400 mt-1">The PCBs, the components, the software are all published—so when we say your data is safe, you don't have to believe us. You can see for yourself.</p>
+                                <p class="text-sm text-slate-400 mt-1">The PCBs, the components, the software are all published — so when we say your data is safe, you can see for yourself.</p>
                             </div>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="mt-1 text-slate-500">
-                                <iconify-icon icon="solar:link-round-linear" width="24"></iconify-icon>
-                            </div>
+                        <div class="reveal stagger-3 flex gap-4">
+                            <div class="mt-1 text-slate-500"><iconify-icon icon="solar:link-round-linear" width="24"></iconify-icon></div>
                             <div>
                                 <h4 class="font-medium text-white">Interoperable</h4>
-                                <p class="text-sm text-slate-400 mt-1">Use with any AI agent, connect any wearable. It's truly your data—you have full freedom to leverage it to maximize what matters to you.</p>
+                                <p class="text-sm text-slate-400 mt-1">Use with any AI agent, connect any wearable. It's truly your data.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hardware Visual -->
-                <div class="relative flex justify-center">
-                    <!-- The Server Device -->
+                <div class="reveal-scale relative flex justify-center">
                     <div class="w-64 h-64 bg-slate-800 rounded-3xl border border-slate-700 shadow-2xl flex flex-col items-center justify-end pb-8 relative overflow-hidden">
-                        <!-- Texture -->
                         <div class="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiAvPgo8cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSIjMDAwIiAvPgo8L3N2Zz4=')]"></div>
-                        
-                        <!-- Status Light -->
                         <div class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_10px_2px_rgba(34,197,94,0.5)] mb-2"></div>
                         <span class="text-[10px] font-mono text-slate-500 tracking-widest uppercase">Supacharger.ai Core / Online</span>
-                        
-                        <!-- Plug Prongs hint (bottom) -->
                         <div class="absolute -bottom-2 w-24 h-4 bg-slate-900 rounded-t-lg"></div>
                     </div>
-                    
-                    <!-- Decorative Circle behind -->
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-slate-800 rounded-full -z-10"></div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Differentiation -->
-    <section class="py-20 px-6 bg-slate-50 dark:bg-slate-950 transition-colors">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-sm font-semibold text-slate-500 tracking-widest uppercase mb-12">Why This Is Different</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6">
-                    <p class="text-slate-400 text-sm mb-2 line-through">Not a fitness tracker</p>
-                    <p class="text-slate-400 text-sm mb-4 line-through">Not a chatbot</p>
-                    <p class="text-slate-900 dark:text-white font-medium">A continuous Life Coach</p>
-                </div>
-                <div class="p-6 border-l border-r border-slate-200 dark:border-slate-800">
-                    <p class="text-slate-400 text-sm mb-2 line-through">Generic advice</p>
-                    <p class="text-slate-400 text-sm mb-4 line-through">Hard-coded rules</p>
-                    <p class="text-slate-900 dark:text-white font-medium">Grounded in your real behavior</p>
-                </div>
-                <div class="p-6">
-                    <p class="text-slate-400 text-sm mb-2 line-through">Cloud-dependent</p>
-                    <p class="text-slate-400 text-sm mb-4 line-through">Data mining</p>
-                    <p class="text-slate-900 dark:text-white font-medium">Private by design</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Manifesto -->
-    <section id="manifesto" class="py-24 px-6 bg-white dark:bg-slate-950 transition-colors">
-        <div class="max-w-2xl mx-auto text-center">
-            <h2 class="text-sm font-semibold text-slate-500 tracking-widest uppercase mb-12">Manifesto</h2>
-
-            <div class="space-y-5 text-lg md:text-xl leading-relaxed text-slate-600 dark:text-slate-300 font-light">
-                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug">
-                    Your attention is all you got.<br>Don't give it away for free.
-                </p>
-
-                <p>See reality clearly.<br>Choose deliberately.</p>
-
-                <p>Do not drift.<br>Do not outsource your mind.</p>
-
-                <p>Become hard to manipulate.<br>Become fully present.</p>
-
-                <p>Own your data.<br>Own your time.<br>Own your future.</p>
-
-                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug pt-4">
-                    Take your attention back.
-                </p>
-            </div>
-
-            <button id="open-vision" class="mt-12 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-full hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
-                <iconify-icon icon="solar:document-text-linear" width="18"></iconify-icon>
-                For Parents
-            </button>
-        </div>
-    </section>
-
-    <!-- Vision Modal -->
-    <div id="vision-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4 md:p-6">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xl relative">
-            <button id="close-vision" class="absolute top-4 right-4 p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <iconify-icon icon="solar:close-circle-linear" width="28"></iconify-icon>
-            </button>
-
-            <div class="space-y-8 text-slate-600 dark:text-slate-300 leading-relaxed">
-
-                <h2 class="text-3xl md:text-4xl font-medium text-slate-900 dark:text-white tracking-tight">For the future of our kids</h2>
-
-                <h3 class="text-2xl font-medium text-slate-900 dark:text-white tracking-tight">The Moment We're In</h3>
-                <div class="space-y-4">
-                    <p>For the first time in history, our kids are growing up with intelligence that talks back. Systems that answer their questions, shape their opinions, respond to their emotions, and influence how they see the world.</p>
-                    <p>Our kids will spend <strong class="text-slate-900 dark:text-white">more time interacting with AI than with any single human being</strong> — including their parents. That means AI will help shape how they think, what they believe, and who they become.</p>
-                    <p>For many kids, AI is quietly becoming a teacher, advisor, and confidant. But most of these systems are designed by companies whose goals are engagement, data, and profit — not your family's values.</p>
-                    <p>If you don't actively shape how your child interacts with AI, someone else will.</p>
-                </div>
-
-                <hr class="border-slate-200 dark:border-slate-800">
-
-                <h3 class="text-2xl font-medium text-slate-900 dark:text-white tracking-tight">The Risk</h3>
-                <div class="space-y-4">
-                    <p>AI will be asked the biggest questions in your child's life: Who am I? What matters? What is right? What should I want?</p>
-                    <p>Today, parents have almost no visibility into those conversations — and almost no control over the values embedded inside them.</p>
-                    <p>Meanwhile, kids are already spending hours each day inside systems designed to capture attention, not build judgment, discipline, or character.</p>
-                </div>
-
-                <hr class="border-slate-200 dark:border-slate-800">
-
-                <h3 class="text-2xl font-medium text-slate-900 dark:text-white tracking-tight">The Choice</h3>
-                <div class="space-y-4">
-                    <p>The future is not "AI or no AI." The future is <strong class="text-slate-900 dark:text-white">who controls the AI shaping your child.</strong></p>
-                    <p>Corporate AI that optimizes for engagement and consumption. Or family-aligned AI that reinforces identity, values, discipline, and purpose.</p>
-                    <p>Tools that quietly replace parental influence. Or tools that extend and strengthen it.</p>
-                </div>
-
-                <hr class="border-slate-200 dark:border-slate-800">
-
-                <h3 class="text-2xl font-medium text-slate-900 dark:text-white tracking-tight">Our Solution</h3>
-                <div class="space-y-4">
-                    <p>We build AI designed to operate under <strong class="text-slate-900 dark:text-white">parent-defined ethical control</strong>.</p>
-                    <p>You set the parameters:</p>
-                    <ul class="list-disc list-inside space-y-2 pl-2">
-                        <li>What values the AI reinforces</li>
-                        <li>What topics require parental context</li>
-                        <li>What boundaries the AI must respect</li>
-                        <li>What kind of guidance your child receives</li>
-                    </ul>
-                    <p>You stay seamlessly informed about how your child is learning and developing.</p>
-                    <p>This is AI that answers to your family. Not corporate incentives. Not hidden algorithms. Not strangers at scale.</p>
-                    <p>Your child's mind is not up for sale, for corporations to exploit. We're building the technology that helps you protect it — and help them grow into strong, self-directed humans.</p>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Pre-Order Section -->
+    <!-- ============================================ -->
+    <!-- PRE-ORDER                                    -->
+    <!-- ============================================ -->
     <section id="preorder" class="py-24 px-6 bg-white dark:bg-slate-900 transition-colors">
         <div class="max-w-5xl mx-auto">
-            <div class="bg-slate-900 dark:bg-black rounded-3xl p-8 md:p-16 text-white overflow-hidden relative shadow-2xl border border-slate-800 dark:border-slate-800">
-                <!-- Background glow -->
+            <div class="bg-slate-900 dark:bg-black rounded-3xl p-8 md:p-16 text-white overflow-hidden relative shadow-2xl border border-slate-800">
                 <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-900/30 rounded-full blur-[100px] pointer-events-none"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
                     <div>
-                        <h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-6">Reserve Your Supacharger.ai</h2>
-                        <p class="text-slate-400 mb-8">Join the high-agency individuals reclaiming their attention. Pre-order now to secure Batch 1 manufacturing priority.</p>
-                        
-                        <div class="space-y-4 mb-8">
+                        <h2 class="reveal text-3xl md:text-4xl font-medium tracking-tight mb-6">Reserve Your Supacharger.ai</h2>
+                        <p class="reveal text-slate-400 mb-8">Join the high-agency individuals reclaiming their attention. Pre-order now to secure Batch 1 manufacturing priority.</p>
+
+                        <div class="reveal space-y-4 mb-8">
                             <div class="flex items-center gap-3">
                                 <iconify-icon icon="solar:check-circle-linear" class="text-teal-400"></iconify-icon>
                                 <span class="text-sm text-slate-300">Priority Device Shipping</span>
@@ -610,13 +608,13 @@
                             </div>
                         </div>
 
-                        <div class="inline-block px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">
+                        <div class="reveal inline-block px-4 py-2 bg-slate-800 rounded-lg border border-slate-700">
                             <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Estimated Ship Date</p>
                             <p class="font-mono text-teal-400">Q4 2024</p>
                         </div>
                     </div>
 
-                    <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+                    <div class="reveal-scale bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
                         <form class="space-y-5">
                             <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1.5">Full Name</label>
@@ -626,13 +624,12 @@
                                 <label class="block text-xs font-medium text-slate-400 mb-1.5">Email Address</label>
                                 <input type="email" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all text-sm" placeholder="jane@example.com">
                             </div>
-                            
-                            <!-- Custom Radio / Selection for Model -->
+
                             <div class="pt-2">
                                 <label class="block text-xs font-medium text-slate-400 mb-3">Select Finish</label>
                                 <div class="grid grid-cols-2 gap-3">
                                     <label class="cursor-pointer group">
-                                        <input type="radio" name="finish" class="hidden peer" checked="">
+                                        <input type="radio" name="finish" class="hidden peer" checked>
                                         <div class="border border-slate-600 rounded-lg p-3 text-center peer-checked:border-teal-500 peer-checked:bg-teal-500/10 transition-all">
                                             <div class="w-6 h-6 bg-slate-800 rounded-full mx-auto mb-2 border border-slate-600"></div>
                                             <span class="text-xs text-slate-300">Matte Black</span>
@@ -663,14 +660,16 @@
     <footer class="bg-white dark:bg-slate-950 pt-20 pb-10 px-6 border-t border-slate-100 dark:border-slate-900 transition-colors">
         <div class="max-w-4xl mx-auto text-center">
             <h3 class="text-2xl md:text-3xl font-serif italic text-slate-800 dark:text-slate-200 mb-6">"Technology shouldn't rob you of your attention. It should help you conserve it."</h3>
-            
+
             <div class="flex justify-center items-center gap-8 mt-12 mb-12">
                 <a href="#" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Twitter</a>
                 <a href="#" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Contact</a>
+                <a href="#" data-modal="manifesto-modal" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Manifesto</a>
+                <a href="#" data-modal="parents-modal" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">For Parents</a>
             </div>
 
             <div class="flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 pt-8 border-t border-slate-100 dark:border-slate-900">
-                <p>© 2024 Supacharger.ai Intelligence Inc.</p>
+                <p>&copy; 2024 Supacharger.ai Intelligence Inc.</p>
                 <div class="flex gap-4 mt-4 md:mt-0">
                     <a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Privacy Policy</a>
                     <a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Terms of Service</a>
@@ -680,157 +679,52 @@
     </footer>
 
     <script>
-        // Guidance: AI-started conversations (3 cards)
-        const GUIDANCE_CARDS = [
-            {
-                messages: [
-                    { type: 'ai', text: '"You are on a 6 day workout streak. You still have 6 hours to finish your workout and maintain your streak."' },
-                    { type: 'you', text: '"Set a reminder for 7 PM and queue a 30-minute session."' },
-                    { type: 'ai', text: '"Done. I also blocked that time so nothing else gets scheduled."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'ai', text: '"Your focus has been drifting. You\'ve checked social media 8 times in the last 2 hours. Want me to suggest a 25-minute deep work block?"' },
-                    { type: 'you', text: '"Yes, block the next 25 minutes and silence notifications."' },
-                    { type: 'ai', text: '"Done. I\'ll check in when the block ends."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'ai', text: '"Your energy typically dips around 3 PM. You have a meeting at 3:30. Want a 10-minute walk reminder before it?"' },
-                    { type: 'you', text: '"Good call. Remind me at 3:15."' },
-                    { type: 'ai', text: '"Set for 3:15 PM."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'ai', text: '"You wanted to finish that proposal today. It\'s 4:45 PM and you\'re still in the research phase. Should I extend the deadline or block focus time now?"' },
-                    { type: 'you', text: '"Block an hour. I\'ll push through."' },
-                    { type: 'ai', text: '"Blocked until 5:45. I\'ll nudge you if you stray."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'ai', text: '"You haven\'t moved in 90 minutes. Your usual pattern suggests a stretch break would help. Want a quick routine?"' },
-                    { type: 'you', text: '"Yes, 2 minutes."' },
-                    { type: 'ai', text: '"Here are 3 stretches. Timer started."' }
-                ]
-            }
-        ];
+        // Scroll-driven reveal using Intersection Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -80px 0px',
+            threshold: 0.15
+        };
 
-        // Know yourself: user-started conversations (3 cards)
-        const KNOW_YOURSELF_CARDS = [
-            {
-                messages: [
-                    { type: 'you', text: '"How much have I spent on eating out so far this month?"' },
-                    { type: 'ai', text: '"$325 so far. You are $50 over budget."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'you', text: '"How has my sleep been for this week?"' },
-                    { type: 'ai', text: '"You\'re averaging 6 hours 42 minutes per night. Down 20 minutes from last week."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'you', text: '"What did I actually do with my time last week?"' },
-                    { type: 'ai', text: '"43% deep work, 22% meetings, 18% email, 12% breaks. Your deep work was up 2 hours from the week before."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'you', text: '"Am I on track with my goals this month?"' },
-                    { type: 'ai', text: '"3 of 5. You hit exercise and reading. Writing and meditation are behind—roughly 40% of target for each."' }
-                ]
-            },
-            {
-                messages: [
-                    { type: 'you', text: '"How does my screen time compare to last month?"' },
-                    { type: 'ai', text: '"Down 23%. You cut 4 hours per week, mostly from social. Phone pickups also dropped 18%."' }
-                ]
-            }
-        ];
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
 
-        function renderMessageBubble(msg) {
-            const isAI = msg.type === 'ai';
-            const panelClass = isAI
-                ? 'glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500'
-                : 'glass-panel p-4 rounded-2xl rounded-tr-sm bg-slate-50 dark:bg-slate-800 border-none';
-            const labelClass = isAI ? '' : ' text-right';
-            const textClass = 'text-slate-800 dark:text-slate-200' + (isAI ? '' : ' text-right');
-            return `
-                <div class="${panelClass}">
-                    <p class="text-sm text-slate-600 dark:text-slate-400 font-medium mb-1${labelClass}">${msg.type.toUpperCase()}</p>
-                    <p class="${textClass}">${msg.text}</p>
-                </div>`;
-        }
-
-        function renderCard(card) {
-            const bubbles = card.messages.map(renderMessageBubble).join('');
-            return `
-                <div class="moments-card glass-panel p-5 rounded-2xl shadow-sm transition-colors">
-                    <div class="space-y-4">${bubbles}</div>
-                </div>`;
-        }
-
-        function renderCarousel(cards, trackId) {
-            const cardsHtml = cards.map(renderCard).join('');
-            document.getElementById(trackId).innerHTML = cardsHtml;
-        }
-
-        renderCarousel(GUIDANCE_CARDS, 'guidance-track');
-        renderCarousel(KNOW_YOURSELF_CARDS, 'know-track');
-
-        // Chevron click handlers for carousel scroll
-        document.querySelectorAll('.carousel-chevron').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const carouselId = btn.dataset.carousel + '-carousel';
-                const carousel = document.getElementById(carouselId);
-                const track = carousel.querySelector('.moments-track');
-                const card = track?.querySelector('.moments-card');
-                if (!card) return;
-                const cardWidth = card.offsetWidth;
-                const gap = 24; // 1.5rem
-                const scrollAmount = cardWidth + gap;
-                carousel.scrollBy({
-                    left: btn.classList.contains('carousel-chevron-left') ? -scrollAmount : scrollAmount,
-                    behavior: 'smooth'
-                });
+                    // Activate strikethrough animations within this element
+                    if (entry.target.classList.contains('line-through-anim')) {
+                        entry.target.classList.add('active');
+                    }
+                }
             });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-fade, .reveal-scale, .reveal-drama, .line-through-anim').forEach(el => {
+            observer.observe(el);
         });
 
-        // Vision Modal
-        const visionModal = document.getElementById('vision-modal');
-        const openVision = document.getElementById('open-vision');
-        const closeVision = document.getElementById('close-vision');
+        const turnSection = document.getElementById('the-turn');
+        const turnBg = document.getElementById('turn-bg');
+        const turnOrb = document.getElementById('turn-orb');
+        const dawnLight = document.getElementById('dawn-light');
 
-        function showVisionModal() {
-            visionModal.classList.remove('hidden');
-            visionModal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-        function hideVisionModal() {
-            visionModal.classList.add('hidden');
-            visionModal.classList.remove('flex');
-            document.body.style.overflow = '';
-        }
+        const turnObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    turnBg.classList.remove('opacity-0');
+                    turnOrb.classList.remove('opacity-0', 'scale-50');
+                    dawnLight.classList.remove('bg-teal-100/0', 'dark:bg-teal-900/0');
+                    dawnLight.classList.add('bg-teal-100/40', 'dark:bg-teal-900/20');
+                }
+            });
+        }, { threshold: 0.3 });
 
-        openVision.addEventListener('click', showVisionModal);
-        closeVision.addEventListener('click', hideVisionModal);
-        visionModal.addEventListener('click', (e) => {
-            if (e.target === visionModal) hideVisionModal();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !visionModal.classList.contains('hidden')) hideVisionModal();
-        });
+        if(turnSection) turnObserver.observe(turnSection);
 
-        // Simple Theme Toggle Logic
+        // Theme toggle
         const toggleBtn = document.getElementById('theme-toggle');
         const html = document.documentElement;
-        
-        // Check local storage or system preference
+
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
         } else {
@@ -847,5 +741,6 @@
             }
         });
     </script>
+    <script src="modals.js"></script>
 
 </body></html>
