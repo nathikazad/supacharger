@@ -108,7 +108,7 @@
               <li> Data-driven guidance to help you parent better — to help you communicate better, identify conflict resolution strategies that work and more.</li>
               <li>Every topic handled on your terms — no corporate or government can override your judgment</li>
             </ul>
-            <p>This is AI that answers to you, the Parent, not some corporation or government. Your child's mind is not up for sale and we're building the technology to help you protect them. So your child can grow into strong and prosperous individual, who will contribute to a strong and prosperous society.</p>
+            <p>This is AI that answers to you, the Parent, not some corporation or government. Your child's mind is not up for sale and we're building the technology to help you protect it. So your child can grow into a strong and prosperous individual, who will contribute to a strong and prosperous society.</p>
             <p class="text-center pt-4 text-lg leading-loose">We believe the only way to 
               <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-300 dark:from-rose-300 dark:to-red-200">Make America Great Again</span>
               is to 
