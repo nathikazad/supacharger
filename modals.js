@@ -103,13 +103,12 @@
           <div class="space-y-4">
             <p>We believe that while your child is in your home, growing under your guidance, you have every right to see and direct what influences them. <strong class="text-slate-900 dark:text-white">Including AI.</strong></p>
             <ul class="list-disc list-outside space-y-2 pl-6">
+              <li>Help you seamlessly monitor the development of your child.</li>
               <li>Granular control over the values, boundaries, and guidance the AI provides.</li>
+              <li> Data-driven guidance to help you parent better — to help you communicate better, identify conflict resolution strategies that work and more.</li>
               <li>Every topic handled on your terms — no corporate or government can override your judgment</li>
-              <li>Nothing sealed off, nothing opaque, nothing outside your oversight.</li>
-              <li>Help you monitor the development of your child in the most seamless way possible.</li>
             </ul>
-            <p>This is AI that answers to your family. Not corporate incentives. Not hidden algorithms. Not strangers at scale.</p>
-            <p>Your child's mind is not up for sale. We're building the technology that helps you protect it — and help them grow into strong, self-directed humans.</p>
+            <p>This is AI that answers to you, the Parent, not some corporation or government. Your child's mind is not up for sale and we're building the technology to help you protect them. So your child can grow into strong and prosperous individual, who will contribute to a strong and prosperous society.</p>
             <p class="text-center pt-4 text-lg leading-loose">We believe the only way to 
               <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-300 dark:from-rose-300 dark:to-red-200">Make America Great Again</span>
               is to 
