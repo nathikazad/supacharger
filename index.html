@@ -725,10 +725,10 @@
         const toggleBtn = document.getElementById('theme-toggle');
         const html = document.documentElement;
 
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        } else {
+        if (localStorage.theme === 'light' || (!('theme' in localStorage) && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.remove('dark');
+        } else {
+            html.classList.add('dark');
         }
 
         toggleBtn.addEventListener('click', () => {
