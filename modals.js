@@ -13,7 +13,7 @@
 
           <div class="space-y-3">
             <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">The most valuable thing you own is not your money, your house, or your career.</p>
-            <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight">It's your attention.</p>
+            <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight">It's your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span>.</p>
           </div>
 
           <div class="space-y-2 max-w-md mx-auto">
@@ -24,7 +24,7 @@
           <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
 
           <div class="space-y-2">
-            <p class="text-xl md:text-2xl font-medium text-slate-900 dark:text-white tracking-tight">Your attention is all you got.</p>
+            <p class="text-xl md:text-2xl font-medium text-slate-900 dark:text-white tracking-tight">Your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> is all you got.</p>
             <p class="text-xl md:text-2xl font-medium text-slate-900 dark:text-white tracking-tight">So don't give it away for free.</p>
           </div>
 
@@ -55,7 +55,7 @@
             <p>Own your future.</p>
           </div>
 
-          <p class="text-2xl md:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-teal-700 dark:from-slate-200 dark:to-teal-400 tracking-tight pt-4">Take your attention back.</p>
+          <p class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight pt-4">Take your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> back.</p>
 
         </div>
       </div>
