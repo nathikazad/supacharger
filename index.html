@@ -15,6 +15,7 @@
                         'blob-delayed': 'blob 7s infinite 2s',
                         'float': 'float 8s ease-in-out infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'radiate-ring': 'radiate 4s ease-out infinite',
                     },
                     keyframes: {
                         blob: {
@@ -26,6 +27,10 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-15px)' },
+                        },
+                        radiate: {
+                            '0%': { transform: 'scale(0.4)', opacity: '0.5' },
+                            '100%': { transform: 'scale(1.8)', opacity: '0' },
                         }
                     }
                 }
@@ -147,6 +152,70 @@
         .line-through-anim.active {
             background-size: 100% 2px;
         }
+
+        /* Right panel: full-screen overlay, slides in from right */
+        .early-acts-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            z-index: 1;
+        }
+        #view-mode[data-mode="short"] .early-acts-panel {
+            transform: translateX(100%);
+            pointer-events: none;
+        }
+        #view-mode[data-mode="short"] .main-content {
+            display: block;
+        }
+
+        #view-mode[data-mode="full"] {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        #view-mode[data-mode="full"] .main-content {
+            pointer-events: auto;
+        }
+        #view-mode[data-mode="full"] .early-acts-panel {
+            pointer-events: auto;
+        }
+        body:has(#view-mode[data-mode="full"]) {
+            overflow: hidden;
+        }
+        #view-mode[data-mode="full"] #panel-overlay {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        #view-mode[data-mode="full"] .early-acts-panel {
+            background: #f8fafc;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+        .early-acts-panel {
+            transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1);
+            will-change: transform;
+        }
+        .dark #view-mode[data-mode="full"] .early-acts-panel {
+            background: #020617;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
+        }
+        .early-acts-panel {
+            scrollbar-width: thin;
+        }
+        .early-acts-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        .early-acts-panel::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.4);
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body class="antialiased text-slate-900 dark:text-slate-100 selection:bg-teal-200 selection:text-teal-900 transition-colors duration-300">
@@ -163,9 +232,14 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-slate-200/50 dark:border-white/5 transition-colors duration-300">
+    <nav class="fixed top-0 w-full z-[110] glass-panel border-b border-slate-200/50 dark:border-white/5 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="text-lg tracking-tighter font-semibold text-slate-900 dark:text-white">Supacharger.ai</a>
+            <div class="flex items-center gap-3">
+                <button id="back-to-short-btn" class="hidden p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-400 transition-colors" aria-label="Back">
+                    <iconify-icon icon="solar:arrow-left-linear" width="22"></iconify-icon>
+                </button>
+                <a href="#" class="text-lg tracking-tighter font-semibold text-slate-900 dark:text-white">Supacharger.ai</a>
+            </div>
             <div class="flex items-center gap-3">
                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-400 transition-colors" aria-label="Toggle Dark Mode">
                     <iconify-icon icon="solar:sun-linear" width="20" class="hidden dark:block"></iconify-icon>
@@ -176,86 +250,19 @@
         </div>
     </nav>
 
+    <!-- View mode: short (acts 7+) | full (two panels) -->
+    <div id="view-mode" data-mode="short">
+      <!-- Dim overlay (fades in when full mode) -->
+      <div id="panel-overlay" class="fixed inset-0 bg-black/20 dark:bg-black/40 pointer-events-none opacity-0 transition-opacity duration-500 z-0" aria-hidden="true"></div>
+      <!-- Right panel: Acts 1-6 (hidden in short mode, right side in full mode) -->
+      <div id="right-panel" class="early-acts-panel">
     <!-- ============================================ -->
-    <!-- ACT 1: THE QUESTION                          -->
+    <!-- ACT 1: THE HOOK                               -->
     <!-- ============================================ -->
-    <section class="min-h-screen flex items-center justify-center px-6 relative">
-        <div class="max-w-3xl mx-auto text-center space-y-10 md:space-y-14">
-            <p class="reveal text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-slate-900 dark:text-white leading-[1.2]">
-                Have you ever had one of those days
-            </p>
-            <p class="reveal stagger-2 text-xl md:text-2xl text-slate-700 dark:text-slate-400 font-light leading-relaxed">
-                Where you woke up wanting to do a lot
-            </p>
-            <p class="reveal stagger-4 text-xl md:text-2xl text-slate-700 dark:text-slate-400 font-light leading-relaxed">
-                But at the end of the day, it felt like you didn't get anything done
-            </p>
-        </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- ACT 2: THE UNRAVELING                        -->
-    <!-- ============================================ -->
-    <section class="py-24 md:py-40 px-6">
+    <section class="min-h-screen flex items-center justify-center px-6 relative pt-24">
         <div class="max-w-2xl mx-auto space-y-8 md:space-y-10">
-            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                You made your list of todos the previous night.
-            </p>
-            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                You told yourself tomorrow will be different.
-            </p>
-            <p class="reveal text-lg md:text-xl text-slate-700 dark:text-slate-400 font-light">
-                But before you even get out of bed, you're already scrolling.
-            </p>
-            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-500 font-light">
-                Then you promise yourself a few minutes of Instagram.
-            </p>
-            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-500 font-light">
-                Next thing you know, it's <span class="text-slate-900 dark:text-white font-bold">3 hours</span> later.
-            </p>
-            <p class="reveal text-xl md:text-2xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed pt-4">
-                That same to-do list — the one that felt so reasonable the previous night — now starts towering over you.
-            </p>
-            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
-                The longer you look at it, the heavier it gets.
-            </p>
-            <p class="reveal text-lg md:text-xl text-slate-700 dark:text-slate-400 font-light leading-relaxed">
-                So you reach for your phone again. Not because you want to — but because it is easier to escape the anxiety than to face it.
-            </p>
-            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-500 font-light leading-relaxed pt-4">
-                And the day ends the same way as the previous day.
-            </p>
-        </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- ACT 3: THE QUIET FRUSTRATION                 -->
-    <!-- ============================================ -->
-    <section class="min-h-[70vh] flex items-center justify-center px-6 relative">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-100/50 to-transparent dark:via-slate-900/30 pointer-events-none"></div>
-        <div class="max-w-2xl mx-auto text-center relative z-10">
-            <p class="reveal text-lg md:text-xl text-slate-700 dark:text-slate-400 font-light mb-6">
-                And at night, there's that quiet frustration again:
-            </p>
-            <p class="reveal stagger-3 text-2xl md:text-4xl lg:text-5xl font-medium text-slate-900 dark:text-white tracking-tight leading-tight">
-                "I know I'm capable of more than this."
-            </p>
-            <p class="reveal stagger-5 mt-10 text-lg md:text-xl text-slate-700 dark:text-slate-400 font-light leading-relaxed">
-                And you can't help but question yourself, "What's wrong with me? Why can't I do this?"
-            </p>
-        </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- ACT 4+5: THE INDICTMENT                      -->
-    <!-- ============================================ -->
-    <section class="py-24 md:py-40 px-6">
-        <div class="max-w-2xl mx-auto space-y-8 md:space-y-10">
-            <p class="reveal text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                You blame yourself. Everyone does.
-            </p>
-            <p class="reveal text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug">
-                But the Truth is, you never had a chance.
+            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                It is not a co-incidence that this is the most attention deprived generation ever to exist.
             </p>
             <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
                 The most well-funded companies in human history hired armies of PhDs — psychologists, neuroscientists, behavioral economists — with one job: keep you glued to your phone for as long as possible.
@@ -334,22 +341,53 @@
             </div>
         </div>
     </section>
+      </div>
+      <!-- end right-panel -->
+
+      <!-- Main panel: Acts 7+ (left in full mode, only visible panel in short mode) -->
+      <div id="main-panel" class="main-content">
 
     <!-- ============================================ -->
-    <!-- ACT 7: THE CALM PRESENCE (Product + Features)-->
+    <!-- HERO: THE HOOK                               -->
     <!-- ============================================ -->
-    <section class="py-24 md:py-32 px-6">
+    <section class="min-h-screen flex items-center justify-center px-6 relative" id="act-7-start">
+        <div class="max-w-3xl mx-auto text-center space-y-8 md:space-y-12">
+            <p class="reveal text-2xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                Ever start the day with big plans…
+            </p>
+            <p class="reveal stagger-2 text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                But only to lose it all to distractions?
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- THE PRODUCT                                  -->
+    <!-- ============================================ -->
+    <section class="py-16 md:py-24 px-6">
         <div class="max-w-5xl mx-auto">
 
-            <!-- Intro text -->
-            <div class="reveal text-center mb-16 md:mb-20">
-                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug max-w-2xl mx-auto">
-                    We built a smart necklace that can <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">SEE</span>, <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">HEAR</span> and <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">RESPOND</span> to you in real time.
+            <div class="reveal text-center mb-6 md:mb-8">
+                <p class="text-2xl md:text-4xl font-medium text-slate-900 dark:text-white tracking-tight leading-snug max-w-2xl mx-auto">
+                    Meet your AI life coach
                 </p>
             </div>
 
-            <!-- Device Visual - Triangle Pendant (inverted) -->
-            <div class="reveal-scale flex justify-center mb-24 md:mb-32 h-[450px] items-center relative">
+            <div class="reveal stagger-2 text-center mb-16 md:mb-20 space-y-6 md:space-y-8">
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                    Who lives inside a smart necklace.
+                </p>
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                    And can
+                    <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">SEE</span>,
+                    <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">HEAR</span>, and
+                    <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">RESPOND</span>
+                    to you in real time.
+                </p>
+            </div>
+
+            <!-- Device Visual - Triangle Pendant -->
+            <div class="reveal-scale flex justify-center mb-4 md:mb-6 h-[450px] items-center relative">
 
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-slate-200 to-teal-100 dark:from-slate-800 dark:to-teal-900/30 rounded-full blur-3xl opacity-50 animate-pulse-slow"></div>
 
@@ -418,100 +456,23 @@
                 </div>
             </div>
 
-            <!-- What it does — flowing from the narrative -->
-            <div class="max-w-2xl mx-auto space-y-16 md:space-y-20">
-                <div class="reveal">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
-                            <iconify-icon icon="solar:eye-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
-                        </div>
-                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                            It notices when your focus starts drifting — and <span class="text-slate-900 dark:text-white font-normal">gently pulls you back</span>.
-                        </p>
-                    </div>
-                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
-                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">"You told me this morning you'd finish the proposal, but you've been avoiding it for two hours. Let's just open the document — that's all. Just a few minutes and we'll see how it goes."</p>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
-                            <iconify-icon icon="solar:list-check-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
-                        </div>
-                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                            It helps you break big, intimidating tasks into <span class="text-slate-900 dark:text-white font-normal">clear next steps</span>.
-                        </p>
-                    </div>
-                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
-                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know this project feels huge. But the next real step is just writing the outline. What do you say we just block off an hour and give it a fair shot?"</p>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
-                            <iconify-icon icon="solar:heart-pulse-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
-                        </div>
-                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                            It reminds you <span class="text-slate-900 dark:text-white font-normal">why something matters</span> when your motivation fades.
-                        </p>
-                    </div>
-                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
-                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know getting that proposal rejected feels like a gut punch. All that work for nothing. But you're on a 22-day workout streak. If you lose it, you're going to feel even worse. What do you say we just do a quick workout and get your mind off this for a bit? You know you'll feel better afterwards."</p>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="mt-1 w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 border border-teal-100 dark:border-teal-800 flex items-center justify-center flex-shrink-0">
-                            <iconify-icon icon="solar:bolt-circle-linear" width="20" class="text-teal-600 dark:text-teal-400"></iconify-icon>
-                        </div>
-                        <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
-                            It helps you untangle your thoughts when they feel <span class="text-slate-900 dark:text-white font-normal">chaotic</span>.
-                        </p>
-                    </div>
-                    <div class="ml-14 glass-panel p-4 rounded-2xl rounded-tl-sm border-l-4 border-l-teal-500 max-w-md">
-                        <p class="text-xs text-teal-600 dark:text-teal-400 font-medium mb-1">SUPACHARGER</p>
-                        <p class="text-sm text-slate-700 dark:text-slate-300">"I know that unexpected call from your boss has thrown off your entire day. But we still have 6 hour left. What do you say, we re-triage the most important todos and see what we can get done?"</p>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed">
-                        Over time, it understands your rhythms — when you think best, when you need breaks, what gives you energy, what drains it.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- ACT 8: THE EXHALE                            -->
-    <!-- ============================================ -->
-    <section class="py-24 md:py-40 px-6">
-        <div class="max-w-3xl mx-auto text-center space-y-16 md:space-y-20">
-
-            <div>
-                <p class="reveal text-xl md:text-2xl text-slate-600 dark:text-slate-500 font-light leading-relaxed mb-4">
-                    So instead of fighting yourself every day…
-                </p>
-                <p class="reveal stagger-2 text-3xl md:text-5xl font-medium text-slate-900 dark:text-white tracking-tight">
-                    You start working <span class="text-teal-600 dark:text-teal-400 italic">with</span> yourself.
+            <div class="reveal text-center mb-8 md:mb-10">
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed max-w-2xl mx-auto">
+                    So when you go off track, somebody is there to bring you right back.
                 </p>
             </div>
 
-            <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed max-w-xl mx-auto">
-                Your tools, instead of robbing you of your attention, help you conserve it and direct it towards the tasks most important to you.
-            </p>
+            <div class="space-y-2 mt-12 md:mt-16">
+                <p class="reveal text-lg md:text-xl text-slate-600 dark:text-slate-400 font-light leading-relaxed max-w-xl mx-auto text-center">
+                    This tool was built to protect your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">attention</span>, not to whisk it away.
+                </p>
+            </div>
 
-            <p class="reveal text-2xl md:text-4xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-teal-700 dark:from-slate-200 dark:to-teal-400 tracking-tight leading-snug max-w-2xl mx-auto">
-                And that person you knew you could be — will slowly start emerging from the chaos, one day at a time.
-            </p>
-
+            <div class="mt-8 md:mt-10">
+                <p class="reveal text-lg md:text-2xl text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-4 text-center max-w-xl mx-auto">
+                    So you can start living up to your potential<br> and build the future of your dreams.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -572,7 +533,49 @@
                         <span class="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Supacharger.ai Core / Online</span>
                         <div class="absolute -bottom-2 w-24 h-4 bg-slate-900 rounded-t-lg"></div>
                     </div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-slate-800 rounded-full -z-10"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full -z-10 pointer-events-none">
+                        <div class="absolute inset-0 border border-emerald-500/50 dark:border-emerald-400/30 rounded-full animate-radiate-ring" style="animation-delay: -0s"></div>
+                        <div class="absolute inset-0 border border-emerald-500/50 dark:border-emerald-400/30 rounded-full animate-radiate-ring" style="animation-delay: -1.33s"></div>
+                        <div class="absolute inset-0 border border-emerald-500/50 dark:border-emerald-400/30 rounded-full animate-radiate-ring" style="animation-delay: -2.66s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- MANIFESTO                                    -->
+    <!-- ============================================ -->
+    <section class="py-24 px-6 bg-white dark:bg-slate-900 transition-colors">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="text-center space-y-10 py-4 max-w-3xl mx-auto">
+                <p class="text-sm font-medium uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">Our Manifesto</p>
+                <div class="space-y-3">
+                <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">The most valuable thing you own is not your money, your house, or your career.</p>
+                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight">It's your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span>.</p>
+                </div>
+                <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
+                <div class="space-y-2 max-w-md mx-auto">
+                <p class="text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">Where you point it determines who you become.</p>
+                <p class="text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">What you give it to determines what you give up.</p>
+                </div>
+                <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
+                <div class="space-y-2 text-lg text-slate-600 dark:text-slate-300 font-light">
+
+                <p>Your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> is all you got, so don't give it away for free.</p>
+                </div>
+                <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
+                <div class="space-y-2 text-lg text-slate-600 dark:text-slate-300 font-light">
+                <p>Own your data.</p>
+                <p>Own your time.</p>
+                <p>Own your future.</p>
+                </div>
+                <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
+                <div class="space-y-2 text-center">
+                  <p class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight pt-4">Start owning your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> again.</p>
+                  <button id="show-full-story-btn" class="inline-block text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium underline underline-offset-4 decoration-teal-500/60 hover:decoration-teal-600 dark:decoration-teal-400/60 dark:hover:decoration-teal-300 transition-colors">
+                    <span>Because if you don't own your attention, someone else will.</span>
+                  </button>
                 </div>
             </div>
         </div>
@@ -667,33 +670,7 @@
     <!-- Footer -->
     <footer class="bg-white dark:bg-slate-950 pt-20 pb-10 px-6 border-t border-slate-100 dark:border-slate-900 transition-colors">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="text-center space-y-10 py-4 mb-6 max-w-3xl mx-auto">
-              <p class="text-sm font-medium uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">Our Manifesto</p>
-              <div class="space-y-3">
-                <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">The most valuable thing you own is not your money, your house, or your career.</p>
-                <p class="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white tracking-tight">It's your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span>.</p>
-              </div>
-              <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
-              <div class="space-y-2 max-w-md mx-auto">
-                <p class="text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">Where you point it determines who you become.</p>
-                <p class="text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">What you give it to determines what you give up.</p>
-              </div>
-              <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
-              <div class="space-y-2 text-lg text-slate-600 dark:text-slate-300 font-light">
-                <p>If you do not direct your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span>, others will direct it for their own gain.</p>
-                <p>Your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> is all you got, so don't give it away for free.</p>
-              </div>
-              <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
-              <div class="space-y-2 text-lg text-slate-600 dark:text-slate-300 font-light">
-                <p>Own your data.</p>
-                <p>Own your time.</p>
-                <p>Own your future.</p>
-              </div>
-              <hr class="border-slate-200 dark:border-slate-800 max-w-xs mx-auto">
-              <p class="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight pt-4">Start owning your <span class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">Attention</span> again.</p>
-            </div>
-
-            <div class="flex justify-center items-center gap-8 mt-12 mb-12">
+            <div class="flex justify-center items-center gap-8 mb-12">
                 <a href="#" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Twitter</a>
                 <a href="#" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Contact</a>
                 <a href="#" data-modal="parents-modal" class="text-sm text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">For Parents</a>
@@ -708,6 +685,11 @@
             </div>
         </div>
     </footer>
+
+      </div>
+      <!-- end main-panel -->
+    </div>
+    <!-- end view-mode -->
 
     <script>
         // Scroll-driven reveal using Intersection Observer
@@ -730,9 +712,17 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal, .reveal-fade, .reveal-scale, .reveal-drama, .line-through-anim').forEach(el => {
-            observer.observe(el);
-        });
+        const revealEls = document.querySelectorAll('.reveal, .reveal-fade, .reveal-scale, .reveal-drama, .line-through-anim');
+        revealEls.forEach(el => observer.observe(el));
+
+        function refreshMainPanelReveals() {
+            document.querySelectorAll('#main-panel .reveal, #main-panel .reveal-fade, #main-panel .reveal-scale, #main-panel .reveal-drama').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight - 80 && rect.bottom > 0;
+                if (inView) el.classList.add('active');
+            });
+        }
+        window.addEventListener('load', () => requestAnimationFrame(refreshMainPanelReveals));
 
         const turnSection = document.getElementById('the-turn');
         const turnBg = document.getElementById('turn-bg');
@@ -770,6 +760,40 @@
                 html.classList.add('dark');
                 localStorage.theme = 'dark';
             }
+        });
+
+        // Full story button: transition to two-panel view
+        const viewMode = document.getElementById('view-mode');
+        const showFullStoryBtn = document.getElementById('show-full-story-btn');
+        let scrollPositionBeforeFull = 0;
+        if (showFullStoryBtn && viewMode) {
+            showFullStoryBtn.addEventListener('click', () => {
+                scrollPositionBeforeFull = window.scrollY ?? 0;
+                viewMode.dataset.mode = 'full';
+                document.getElementById('back-to-short-btn')?.classList.remove('hidden');
+                history.replaceState({ view: 'full' }, '', '#full');
+                // Trigger reveal on right panel content
+                document.querySelectorAll('#right-panel .reveal, #right-panel .reveal-fade, #right-panel .reveal-scale, #right-panel .reveal-drama').forEach(el => {
+                    el.classList.add('active');
+                });
+            });
+        }
+        // Restore full view if hash is #full
+        if (window.location.hash === '#full' && viewMode) {
+            viewMode.dataset.mode = 'full';
+            document.getElementById('back-to-short-btn')?.classList.remove('hidden');
+        }
+        // Back button: return to short view
+        document.getElementById('back-to-short-btn')?.addEventListener('click', () => {
+            viewMode.dataset.mode = 'short';
+            document.getElementById('back-to-short-btn')?.classList.add('hidden');
+            history.replaceState({}, '', window.location.pathname);
+            setTimeout(refreshMainPanelReveals, 100);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    window.scrollTo({ top: scrollPositionBeforeFull, behavior: 'auto' });
+                });
+            });
         });
     </script>
     <script src="modals.js"></script>
